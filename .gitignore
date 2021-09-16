@@ -99,7 +99,7 @@ typings/
 .cache
 
 # Next.js build output
-
+DS_store
 .next
 
 # Nuxt.js build / generate output
@@ -136,3 +136,4 @@ dist
 # TernJS port file
 
 .tern-port
+.DS_Store
