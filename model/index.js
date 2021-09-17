@@ -6,8 +6,8 @@ const listContacts = async () => contacts;
 
 const getContactById = async (contactId) => {
   const contactsList = await listContacts();
-  console.log(filePath);
-  const contact = contactsList.find((item) => item.id === contactId);
+
+  const contact = contactsList.find((item) => item.id === Number(contactId));
 
   if (!contact) {
     console.log("Not found contact");

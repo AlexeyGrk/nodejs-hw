@@ -1,24 +1,46 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
+const contactsOperations = require("../../model");
 
-router.get('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get("/", async (req, res, next) => {
+  try {
+    const contacts = await contactsOperations.listContacts();
 
-router.get('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+    return res.json({
+      status: "success",
+      code: 200,
+      message: "request success",
+      contacts,
+    });
+  } catch (e) {
+    next(e);
+  }
+});
 
-router.post('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get("/:contactId", async (req, res, next) => {
+  const contact = await contactsOperations.getContactById(req.params.contactId);
+  try {
+    res.json({
+      status: "success",
+      code: 200,
+      message: "request success",
+      contact,
+    });
+  } catch (e) {
+    next(e);
+  }
+});
 
-router.delete('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.post("/", async (req, res, next) => {
+  res.json({ message: "template message" });
+});
 
-router.patch('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.delete("/:contactId", async (req, res, next) => {
+  res.json({ message: "template message" });
+});
 
-module.exports = router
+router.patch("/:contactId", async (req, res, next) => {
+  res.json({ message: "template message" });
+});
+
+module.exports = router;
