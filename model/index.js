@@ -18,7 +18,7 @@ const getContactById = async (contactId) => {
 
 const removeContact = async (contactId) => {
   const contactsList = await listContacts();
-  const idx = contactsList.findIndex((item) => item.id === contactId);
+  const idx = contactsList.findIndex((item) => item.id === Number(contactId));
   if (idx === -1) {
     console.log("Not found contact");
     return null;
@@ -28,9 +28,9 @@ const removeContact = async (contactId) => {
   return "Success remove";
 };
 
-const addContact = async ({ name, phone, email, id }) => {
+const addContact = async ({ id, name, phone, email }) => {
   const contactsList = await listContacts();
-  const newContact = { name, phone, email, id };
+  const newContact = { id, name, phone, email };
 
   const newProducts = [...contactsList, newContact];
 
