@@ -1,9 +1,4 @@
-const sendSuccessRes = (
-  res,
-  contacts,
-  status = 200,
-  message = "request success"
-) => {
+const sendSuccessRes = (res, contacts, status = 200) => {
   res.status(status).json({
     status: "success",
     code: status,
