@@ -7,10 +7,9 @@ const addContact = async ({ name, phone, email }) => {
   const id = nanoid();
 
   const newContact = { id, name, phone, email };
+  contactsList.push(newContact);
 
-  const newProducts = [...contactsList, newContact];
-
-  await updateContacts(newProducts);
+  await updateContacts(contactsList);
   return newContact;
 };
 module.exports = addContact;
