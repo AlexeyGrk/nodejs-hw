@@ -101,7 +101,7 @@ typings/
 # Next.js build output
 DS_store
 .next
-
+.prettierrc.json
 # Nuxt.js build / generate output
 
 .nuxt
