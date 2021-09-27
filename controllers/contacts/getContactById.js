@@ -1,8 +1,11 @@
-const contactsOperations = require("../../model/");
+const { Contact } = require("../../models/");
 const { sendSuccessRes } = require("../../utils/");
 const getContactById = async (req, res) => {
   const { contactId } = req.params;
-  const contact = await contactsOperations.getContactById(contactId);
+  const contact = await Contact.findById(
+    contactId,
+    "_id name phone email favorite"
+  );
   if (!contact) {
     const error = new Error(`Contact with id ${contactId} not found`);
     error.status = 404;

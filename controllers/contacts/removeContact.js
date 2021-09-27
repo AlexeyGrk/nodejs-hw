@@ -1,8 +1,8 @@
-const contactsOperations = require("../../model/");
+const { Contact } = require("../../models/");
 const { sendSuccessRes } = require("../../utils/");
 const removeContact = async (req, res) => {
   const { contactId } = req.params;
-  const deletedContact = await contactsOperations.removeContact(contactId);
+  const deletedContact = await Contact.findByIdAndDelete(contactId);
   if (!deletedContact) {
     res.status(404).json({
       status: "error",
