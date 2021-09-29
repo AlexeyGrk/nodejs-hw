@@ -1,4 +1,5 @@
-const sendSuccessRes = (res, contacts, status = 200) => {
+const { HTTPcode } = require("./constants");
+const sendSuccessRes = (res, contacts, status = HTTPcode.OK) => {
   res.status(status).json({
     status: "success",
     code: status,
