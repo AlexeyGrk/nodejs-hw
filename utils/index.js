@@ -1,6 +1,7 @@
 const sendSuccessRes = require("./sendSuccessRes");
-const HTTPcode = require("./constants");
+const sendNotFoundRes = require("./sendNotFoundRes");
+
 module.exports = {
   sendSuccessRes,
-  HTTPcode,
+  sendNotFoundRes,
 };

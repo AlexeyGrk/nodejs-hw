@@ -1,3 +1,4 @@
+const { HTTPcode } = require("../utils/constants");
 const validation = (schema) => {
   return async (req, res, next) => {
     schema
@@ -8,9 +9,9 @@ const validation = (schema) => {
         }
       })
       .catch(function (err) {
-        res.status(400).json({
+        res.status(HTTPcode.BAD_REQUEST).json({
           status: "error",
-          code: 400,
+          code: HTTPcode.BAD_REQUEST,
           message: {
             type: err.name,
             error: err.errors,
