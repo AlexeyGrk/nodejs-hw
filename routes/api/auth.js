@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const { controllerWrapper, validation } = require("../../middlewares/");
-const { userYupSchema } = require("../../models/auth");
+const { userYupSchema } = require("../../models/users");
 
 const { auth: ctrl } = require("../../controllers");
 
 router.post(
-  "/register",
+  "/signup",
   validation(userYupSchema),
   controllerWrapper(ctrl.register)
 );

@@ -1,11 +1,11 @@
 const bcrypt = require("bcryptjs");
 const { User } = require("../../models/");
-const { sendSuccessRes } = require("../../utils/");
+
 const { Conflict } = require("http-errors");
 const { HTTPcode } = require("../../utils/constants");
 
 const register = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, subscription } = req.body;
   const user = await User.findOne({ email });
 
   if (user) {
@@ -13,10 +13,17 @@ const register = async (req, res) => {
   }
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-  const newUser = { email, password: hashPassword };
+  const newUser = { email, password: hashPassword, subscription };
 
   await User.create(newUser);
-  sendSuccessRes(res, [], HTTPcode.CREATED);
+  res.status(HTTPcode.CREATED).json({
+    status: "success",
+    code: HTTPcode.CREATED,
+    user: {
+      email,
+      subscription,
+    },
+  });
 };
 
 module.exports = register;

@@ -1,3 +1,3 @@
 const { Contact } = require("./contact");
-const { User } = require("./auth");
+const { User } = require("./users");
 module.exports = { Contact, User };
