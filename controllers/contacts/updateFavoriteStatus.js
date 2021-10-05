@@ -4,9 +4,9 @@ const { sendSuccessRes } = require("../../utils/");
 const updateFavoriteStatus = async (req, res) => {
   const { contactId } = req.params;
   const { favorite } = req.body;
-
-  const updateFavoriteStatus = await Contact.findByIdAndUpdate(
-    contactId,
+  const userId = req.user._id;
+  const updateFavoriteStatus = await Contact.findOneAndUpdate(
+    { _id: contactId, owner: userId },
     { favorite },
     {
       new: true,

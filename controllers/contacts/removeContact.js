@@ -3,7 +3,11 @@ const { HTTPcode } = require("../../utils/constants");
 const { sendSuccessRes } = require("../../utils/");
 const removeContact = async (req, res) => {
   const { contactId } = req.params;
-  const deletedContact = await Contact.findByIdAndDelete(contactId);
+  const userId = req.user._id;
+  const deletedContact = await Contact.findOneAndRemove({
+    _id: contactId,
+    owner: userId,
+  });
   if (!deletedContact) {
     res.status(HTTPcode.NOT_FOUND).json({
       status: "error",

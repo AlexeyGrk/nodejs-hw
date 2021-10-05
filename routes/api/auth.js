@@ -1,7 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const { controllerWrapper, validation } = require("../../middlewares/");
-const { userYupSchema } = require("../../models/users");
+const {
+  controllerWrapper,
+  validation,
+  authenticate,
+} = require("../../middlewares/");
+const {
+  userYupSchema,
+  userSubscriptionUpdateSchema,
+} = require("../../models/users");
 
 const { auth: ctrl } = require("../../controllers");
 
@@ -11,5 +18,12 @@ router.post(
   controllerWrapper(ctrl.register)
 );
 router.post("/login", validation(userYupSchema), controllerWrapper(ctrl.login));
-router.get("/logout", controllerWrapper(ctrl.logout));
+router.get("/logout", authenticate, controllerWrapper(ctrl.logout));
+router.get("/current", authenticate, controllerWrapper(ctrl.currentUser));
+router.patch(
+  "/",
+  authenticate,
+  validation(userSubscriptionUpdateSchema),
+  controllerWrapper(ctrl.updateSubscriptionStatus)
+);
 module.exports = router;

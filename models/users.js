@@ -1,5 +1,6 @@
 let yup = require("yup");
-const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { SECRET_KEY } = process.env;
 const { Schema, model } = require("mongoose");
 
 const userSchema = new Schema(
@@ -29,15 +30,27 @@ const userSchema = new Schema(
     timestamps: true,
   }
 );
-
+userSchema.methods.createToken = function () {
+  const payload = {
+    _id: this._id,
+  };
+  return jwt.sign(payload, SECRET_KEY);
+};
 let userYupSchema = yup.object().shape({
   email: yup.string().email().required(),
   password: yup.string().min(6).required(),
   subscription: yup.string(),
 });
+let userSubscriptionUpdateSchema = yup.object().shape({
+  subscription: yup
+    .string()
+    .matches(/(pro|business)/)
+    .required(),
+});
 
 const User = model("user", userSchema);
 module.exports = {
   userYupSchema,
+  userSubscriptionUpdateSchema,
   User,
 };

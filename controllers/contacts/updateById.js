@@ -3,9 +3,14 @@ const { HTTPcode } = require("../../utils/constants");
 const { sendSuccessRes } = require("../../utils/");
 const updateById = async (req, res) => {
   const { contactId } = req.params;
-  const updateById = await Contact.findByIdAndUpdate(contactId, req.body, {
-    new: true,
-  });
+  const userId = req.user._id;
+  const updateById = await Contact.findOneAndUpdate(
+    { _id: contactId, owner: userId },
+    req.body,
+    {
+      new: true,
+    }
+  );
 
   if (!updateById) {
     res.status(HTTPcode.NOT_FOUND).json({

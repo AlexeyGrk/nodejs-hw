@@ -1,5 +1,6 @@
 let yup = require("yup");
 const { Schema, model, SchemaTypes } = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const contactSchema = new Schema(
   {
@@ -15,7 +16,7 @@ const contactSchema = new Schema(
     },
     owner: {
       type: SchemaTypes.ObjectId,
-      ref: "User",
+      ref: "user",
     },
   },
   {
@@ -33,6 +34,7 @@ let contactYupSchema = yup.object().shape({
 let contactYupUpdateFavoriteSchema = yup.object().shape({
   favorite: yup.boolean().required(),
 });
+contactSchema.plugin(mongoosePaginate);
 const Contact = model("contact", contactSchema);
 
 module.exports = {
