@@ -1,11 +1,12 @@
 const { Contact } = require("../../models/");
+const { HTTPcode } = require("../../utils/constants");
 const { sendSuccessRes } = require("../../utils/");
 const updateFavoriteStatus = async (req, res) => {
   const { contactId } = req.params;
   const { favorite } = req.body;
-
-  const updateFavoriteStatus = await Contact.findByIdAndUpdate(
-    contactId,
+  const userId = req.user._id;
+  const updateFavoriteStatus = await Contact.findOneAndUpdate(
+    { _id: contactId, owner: userId },
     { favorite },
     {
       new: true,
@@ -13,13 +14,13 @@ const updateFavoriteStatus = async (req, res) => {
   );
 
   if (!updateFavoriteStatus) {
-    res.status(404).json({
+    res.status(HTTPcode.NOT_FOUND).json({
       status: "error",
-      code: 404,
+      code: HTTPcode.NOT_FOUND,
       message: "Not found contact",
     });
   } else {
-    sendSuccessRes(res, updateFavoriteStatus, 200);
+    sendSuccessRes(res, updateFavoriteStatus);
   }
 };
 module.exports = updateFavoriteStatus;
