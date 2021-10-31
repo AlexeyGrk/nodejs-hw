@@ -20,6 +20,7 @@ const userSchema = new Schema(
       enum: ["starter", "pro", "business"],
       default: "starter",
     },
+    avatarURL: String,
     token: {
       type: String,
       default: null,
@@ -47,10 +48,14 @@ let userSubscriptionUpdateSchema = yup.object().shape({
     .matches(/(pro|business)/)
     .required(),
 });
+let userAvatarsUpdateSchema = yup.object().shape({
+  avatarURL: yup.mixed().required("File is required"),
+});
 
 const User = model("user", userSchema);
 module.exports = {
   userYupSchema,
   userSubscriptionUpdateSchema,
+  userAvatarsUpdateSchema,
   User,
 };

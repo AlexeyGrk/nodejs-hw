@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const upload = require("../../middlewares/upload");
+
 const {
   controllerWrapper,
   validation,
@@ -8,6 +10,7 @@ const {
 const {
   userYupSchema,
   userSubscriptionUpdateSchema,
+  userAvatarsUpdateSchema,
 } = require("../../models/users");
 
 const { auth: ctrl } = require("../../controllers");
@@ -26,4 +29,13 @@ router.patch(
   validation(userSubscriptionUpdateSchema),
   controllerWrapper(ctrl.updateSubscriptionStatus)
 );
+
+router.patch(
+  "/avatars",
+  authenticate,
+  // validation(userAvatarsUpdateSchema),
+  upload.single("avatar"),
+  ctrl.updateAvatars
+);
+
 module.exports = router;
