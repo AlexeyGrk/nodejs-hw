@@ -20,6 +20,8 @@ router.post(
   validation(userYupSchema),
   controllerWrapper(ctrl.register)
 );
+router.get("/verify/:verifyToken", controllerWrapper(ctrl.verify));
+router.post("/verify/", controllerWrapper(ctrl.reverify));
 router.post("/login", validation(userYupSchema), controllerWrapper(ctrl.login));
 router.get("/logout", authenticate, controllerWrapper(ctrl.logout));
 router.get("/current", authenticate, controllerWrapper(ctrl.currentUser));

@@ -7,15 +7,18 @@ const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne(
     { email },
-    "_id email password  subscription"
+    "_id email password  subscription verify"
   );
   const token = user.createToken();
 
   if (!user || !bcrypt.compareSync(password, user.password)) {
     throw new Unauthorized(`Email or password  wrong `);
   }
-
+  if (!user.verify) {
+    throw new Unauthorized(`Please, verify your email`);
+  }
   await User.findByIdAndUpdate(user._id, { token });
+
   res.json({
     status: "success",
     code: HTTPcode.OK,
@@ -23,6 +26,7 @@ const login = async (req, res) => {
     user: {
       email: user.email,
       subscription: user.subscription,
+      verifyToken: user.verifyToken,
     },
   });
 };
